@@ -2,20 +2,17 @@ package cn.zbq.mybatisplustest.config.extension;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
+ * ø
  * IService扩展
  *
  * @author zbq
@@ -31,7 +28,7 @@ public interface SuperService<T> extends IService<T> {
      * @return 获取数据function
      */
     default Function<Integer, List<T>> getList(int pageSize, Wrapper<T> queryWrapper) {
-        return current -> page(new Page<>(current, pageSize, false)).getRecords();
+        return current -> page(new Page<>(current, pageSize, false), queryWrapper).getRecords();
     }
 
     /**
@@ -58,10 +55,38 @@ public interface SuperService<T> extends IService<T> {
         }
     }
 
+    /**
+     * 添加表分区
+     *
+     * @param partValue 分区值
+     */
     default void addPartitionByList(String partValue) {
         BaseMapper<T> mapper = getBaseMapper();
         if (mapper instanceof SuperMapper) {
             ((SuperMapper<T>) mapper).addPartitionByList(partValue);
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * 获取表分区信息
+     *
+     * @return 分区信息list
+     */
+    default List<PartitionInfo> getPartitionInfoList() {
+        return getPartitionInfoList(null);
+    }
+
+    /**
+     * 获取表分区信息
+     *
+     * @return 分区信息list
+     */
+    default List<PartitionInfo> getPartitionInfoList(Wrapper<PartitionInfo> queryWrapper) {
+        BaseMapper<T> mapper = getBaseMapper();
+        if (mapper instanceof SuperMapper) {
+            return ((SuperMapper<T>) mapper).selectPartitionInfoList(queryWrapper);
         } else {
             throw new UnsupportedOperationException();
         }

@@ -1,6 +1,7 @@
 package cn.zbq.mybatisplustest.config;
 
 import cn.zbq.mybatisplustest.config.extension.AddPartitionByList;
+import cn.zbq.mybatisplustest.config.extension.SelectPartitionInfoList;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
@@ -40,6 +41,7 @@ public class MyBatisPlusConfig {
                 methodList.add(new InsertBatchSomeColumn(t -> !(t.getFieldFill() == FieldFill.UPDATE
                         || t.isLogicDelete() || t.getProperty().equals("id"))));
                 methodList.add(new AddPartitionByList());
+                methodList.add(new SelectPartitionInfoList());
                 return methodList;
             }
         };

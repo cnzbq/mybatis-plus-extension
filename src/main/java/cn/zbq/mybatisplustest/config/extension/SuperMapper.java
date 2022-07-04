@@ -1,6 +1,8 @@
 package cn.zbq.mybatisplustest.config.extension;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,4 +27,11 @@ public interface SuperMapper<T> extends BaseMapper<T> {
      * @return /
      */
     int addPartitionByList(@Param("v") String value);
+
+    /**
+     * 查询表分区信息
+     *
+     * @return 分区信息list
+     */
+    List<PartitionInfo> selectPartitionInfoList(@Param(Constants.WRAPPER) Wrapper<PartitionInfo> queryWrapper);
 }
