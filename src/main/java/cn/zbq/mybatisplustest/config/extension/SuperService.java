@@ -65,7 +65,7 @@ public interface SuperService<T> extends IService<T> {
         if (mapper instanceof SuperMapper) {
             ((SuperMapper<T>) mapper).addPartitionByList(partValue);
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("当前实现不支持该方法，mapper类需要继承SuperMapper!");
         }
     }
 
@@ -88,7 +88,7 @@ public interface SuperService<T> extends IService<T> {
         if (mapper instanceof SuperMapper) {
             return ((SuperMapper<T>) mapper).selectPartitionInfoList(queryWrapper);
         } else {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("当前实现不支持该方法，mapper类需要继承SuperMapper!");
         }
     }
 
