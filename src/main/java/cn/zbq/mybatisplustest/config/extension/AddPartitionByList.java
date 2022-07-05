@@ -14,7 +14,7 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class AddPartitionByList extends AbstractMethod {
 
-    private static final String sqlScript = "<script>\nALTER TABLE %s ADD PARTITION (PARTITION part_${v} VALUES IN (${v}))\n</script>";
+    private static final String SQL_SCRIPT = "<script>\nALTER TABLE %s ADD PARTITION (PARTITION part_${v} VALUES IN (${v}))\n</script>";
 
     public AddPartitionByList() {
         super("addPartitionByList");
@@ -23,7 +23,7 @@ public class AddPartitionByList extends AbstractMethod {
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         String tableName = tableInfo.getTableName();
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, String.format(sqlScript, tableName), modelClass);
+        SqlSource sqlSource = languageDriver.createSqlSource(configuration, String.format(SQL_SCRIPT, tableName), modelClass);
         return this.addUpdateMappedStatement(mapperClass, modelClass, sqlSource);
     }
 }
